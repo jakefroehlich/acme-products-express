@@ -24,9 +24,19 @@ class App extends React.Component {
     }
 
     render() {
+        console.log(this.state.products)
         const Home = () => <h1>Home</h1>
         const Products = () => {
-        let lis = this.state.products.map(product => <li key = {product.name}>{product.name}</li>)
+            let lis;
+            if (this.state.products) {
+                lis = this.state.products.map(product => {
+                    return <div>
+                        <li key = {product.name}>{product.name}</li>
+                        <button onClick={() => {axios.delete('./api/product/:id')}}>Delete</button>
+                </div>
+            }
+                )
+            }
             return <div>
                 <h1>Products</h1>
                 <ul>
@@ -38,9 +48,10 @@ class App extends React.Component {
         const Creator = () => {
             let input;
             return <div>
-                <form onSubmit= {()=>{ 
-                    this.setState({ products: this.state.products.push({name: input}) })
-                    axios.post('/api/products',{ name: input})}}>
+                <form onSubmit= {(ev)=>{
+                    ev.preventDefault
+                    axios.post('/api/products',{ name: input})
+                        .then(res => this.setState({ products: res.data}))}}>
                 <input type='text' onChange={(ev) => {
                     input = ev.target.value
                     console.log(input)

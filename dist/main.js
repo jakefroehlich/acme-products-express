@@ -126,27 +126,38 @@ class App extends React.Component {
   }
 
   render() {
+    console.log(this.state.products);
+
     const Home = () => /*#__PURE__*/React.createElement("h1", null, "Home");
 
     const Products = () => {
-      let lis = this.state.products.map(product => /*#__PURE__*/React.createElement("li", {
-        key: product.name
-      }, product.name));
+      let lis;
+
+      if (this.state.products) {
+        lis = this.state.products.map(product => {
+          return /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement("li", {
+            key: product.name
+          }, product.name), /*#__PURE__*/React.createElement("button", {
+            onClick: () => {
+              axios.delete('./api/product/:id');
+            }
+          }, "Delete"));
+        });
+      }
+
       return /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement("h1", null, "Products"), /*#__PURE__*/React.createElement("ul", null, lis));
     };
 
     const Creator = () => {
       let input;
       return /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement("form", {
-        onSubmit: () => {
-          this.setState({
-            products: this.state.products.push({
-              name: input
-            })
-          });
+        onSubmit: ev => {
+          ev.preventDefault;
           axios.post('/api/products', {
             name: input
-          });
+          }).then(res => this.setState({
+            products: res.data
+          }));
         }
       }, /*#__PURE__*/React.createElement("input", {
         type: "text",

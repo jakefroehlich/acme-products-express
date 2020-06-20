@@ -55,16 +55,21 @@ app.get('/api/products', (req, res) => {
 
 app.post('/api/products', async (req, res) => {
 
-    console.log(req.body)
-
-    writeFileP('./data.json', req.body)
-        .then(data => {
-            res.send(data)
-        })
+    readFileP('./data.json')
+        .then(result => {
+            result.push(req.body)
+            console.log('stringify', JSON.stringify(result))
+            fs.writeFile('./data.json', JSON.stringify(result), () => {})})
+        .then(result => res.send(result))
+        .catch((e) => console.log(e))
+        
 })
 
 app.delete('/api/products/:id', (req, res) => {
-    
+    readFileP('./data.json')
+        .then(result => {
+            
+        })
 })
 
 app.listen(PORT);
