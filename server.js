@@ -63,4 +63,8 @@ app.post('/api/products', async (req, res) => {
         })
 })
 
+app.delete('/api/products/:id', (req, res) => {
+    
+})
+
 app.listen(PORT);
