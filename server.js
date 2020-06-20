@@ -39,6 +39,7 @@ const readFileP = (filePath) => {
 }
 
 app.use(express.json());
+
 app.use(express.static(path.join(__dirname)));
 
 app.get('/', (req, res) => {
@@ -48,7 +49,17 @@ app.get('/', (req, res) => {
 app.get('/api/products', (req, res) => {
     readFileP('./data.json')
         .then(data => {
-            console.log(data)
+            res.send(data)
+        })
+})
+
+app.post('/api/products', async (req, res) => {
+
+    console.log(req.body)
+
+    writeFileP('./data.json', req.body)
+        .then(data => {
+            res.send(data)
         })
 })
 
