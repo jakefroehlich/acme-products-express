@@ -42,13 +42,13 @@ app.use(express.json());
 app.use(express.static(path.join(__dirname)));
 
 app.get('/', (req, res) => {
-    res.sendFile(path.join(__dirname, 'index2.html'))
+    res.sendFile(path.join(__dirname, './index.html'))
 })
 
 app.get('/api/products', (req, res) => {
-    res.readFileP('./data.json')
+    readFileP('./data.json')
         .then(data => {
-            
+            console.log(data)
         })
 })
 
